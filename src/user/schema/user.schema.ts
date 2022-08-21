@@ -14,7 +14,7 @@ export class User {
   @Prop()
   avatar?: string
 
-  @Prop({ required: true, default: [] })
+  @Prop({ default: [] })
   tasks: ObjectId[]
 }
 

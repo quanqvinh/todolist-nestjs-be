@@ -1,6 +1,5 @@
-import { BaseUserDto } from './base-user.dto'
-
-export class CreateUserDto extends BaseUserDto {
+export interface CreateUserDto {
   email: string
   name: string
+  avatar: string
 }
