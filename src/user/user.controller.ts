@@ -1,5 +1,5 @@
-import { UpdateUserInfoDto } from './dto/update-user-info.dto'
-import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserInfoDTO } from './dto/update-user-info.dto'
+import { CreateUserDTO } from './dto/create-user.dto'
 import {
   Body,
   Controller,
@@ -16,24 +16,23 @@ import { UserService } from './user.service'
 export class UserController {
   constructor(private readonly service: UserService) {}
 
-  @Get()
+  @Get(':id')
   async getUser(@Param('id') userId: string): Promise<User> {
     return await this.service.find(userId)
   }
 
   @Post()
-  async createNewUser(@Body() createUserDto: CreateUserDto): Promise<boolean> {
-    const createdUser = await this.service.create(createUserDto)
-    console.log(createdUser)
+  async createNewUser(@Body() createUserDTO: CreateUserDTO): Promise<boolean> {
+    const createdUser = await this.service.create(createUserDTO)
     return Boolean(createdUser)
   }
 
   @Patch(':id')
   async updateUserInfo(
     @Param('id') userId: string,
-    @Body() updateUserInfoDto: UpdateUserInfoDto,
+    @Body() updateUserInfoDTO: UpdateUserInfoDTO,
   ): Promise<boolean> {
-    const res = await this.service.updateInfo(userId, updateUserInfoDto)
+    const res = await this.service.updateInfo(userId, updateUserInfoDTO)
     return res.matchedCount === 1
   }
 

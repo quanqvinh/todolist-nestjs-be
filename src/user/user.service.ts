@@ -1,9 +1,9 @@
-import { UpdateUserTaskDto } from './dto/update-user-task.dto'
-import { UpdateUserInfoDto } from './dto/update-user-info.dto'
-import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserTaskDTO } from './dto/update-user-task.dto'
+import { UpdateUserInfoDTO } from './dto/update-user-info.dto'
+import { CreateUserDTO } from './dto/create-user.dto'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model, ObjectId } from 'mongoose'
+import { Model } from 'mongoose'
 import { UpdateResult, DeleteResult } from 'mongodb'
 import { User, UserDocument } from './schema/user.schema'
 
@@ -14,27 +14,27 @@ export class UserService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return await this.model.find().exec()
+    return await this.model.find()
   }
 
-  async find(userId: ObjectId | string): Promise<User> {
-    return await this.model.findOne({ _id: userId }).exec()
+  async find(userId: string): Promise<User> {
+    return await this.model.findOne({ _id: userId })
   }
 
-  async create(user: CreateUserDto): Promise<User> {
+  async create(user: CreateUserDTO): Promise<User> {
     return await this.model.create({ ...user })
   }
 
   async updateInfo(
-    userId: ObjectId | string,
-    userInfo: UpdateUserInfoDto,
+    userId: string,
+    userInfo: UpdateUserInfoDTO,
   ): Promise<UpdateResult> {
     return await this.model.updateOne({ _id: userId }, { ...userInfo }).exec()
   }
 
   async addTask(
-    userId: ObjectId | string,
-    userTask: UpdateUserTaskDto,
+    userId: string,
+    userTask: UpdateUserTaskDTO,
   ): Promise<UpdateResult> {
     return await this.model
       .updateOne({ _id: userId }, { $push: { tasks: { $in: userTask.tasks } } })
@@ -42,15 +42,15 @@ export class UserService {
   }
 
   async deleteTask(
-    userId: ObjectId | string,
-    userTask: UpdateUserTaskDto,
+    userId: string,
+    userTask: UpdateUserTaskDTO,
   ): Promise<UpdateResult> {
     return await this.model
       .updateOne({ _id: userId }, { $pull: { tasks: { $in: userTask.tasks } } })
       .exec()
   }
 
-  async delete(userId: ObjectId | string): Promise<DeleteResult> {
+  async delete(userId: string): Promise<DeleteResult> {
     return await this.model.deleteOne({ _id: userId }).exec()
   }
 }

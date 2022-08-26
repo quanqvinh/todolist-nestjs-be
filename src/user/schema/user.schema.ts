@@ -1,5 +1,6 @@
+import { Task } from '../../task/schema/task.schema'
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose'
-import { Document, ObjectId } from 'mongoose'
+import { Document, LeanDocument, Types } from 'mongoose'
 
 export type UserDocument = User & Document
 
@@ -14,8 +15,8 @@ export class User {
   @Prop()
   avatar?: string
 
-  @Prop({ default: [] })
-  tasks: ObjectId[]
+  @Prop({ type: [Types.ObjectId], ref: 'Task', default: [] })
+  tasks: Task[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

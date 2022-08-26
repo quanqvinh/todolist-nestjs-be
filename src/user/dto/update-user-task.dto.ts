@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongoose'
-
-export interface UpdateUserTaskDto {
-  tasks: ObjectId[]
+export interface UpdateUserTaskDTO {
+  tasks: string[]
 }
