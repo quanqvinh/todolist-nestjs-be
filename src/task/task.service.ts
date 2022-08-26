@@ -18,7 +18,7 @@ export class TaskService {
   ) {}
 
   async getAllTask(): Promise<Task[]> {
-    return await this.taskModel.find().lean().exec()
+    return await this.taskModel.find().lean({ virtuals: true }).exec()
   }
 
   async getUserTask(userId: string): Promise<Task[]> {
@@ -69,7 +69,7 @@ export class TaskService {
     const [updateUserState, deleteTaskState] = await Promise.all([
       this.userModel.updateOne(
         { tasks: listId.taskIds[0] },
-        { $pull: { tasks: { $in: listId.taskIds } } },
+        { $pullAll: { tasks: listId.taskIds } },
       ),
       this.taskModel.deleteMany({ _id: { $in: listId.taskIds } }),
     ])

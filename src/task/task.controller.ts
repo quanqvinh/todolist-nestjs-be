@@ -36,7 +36,7 @@ export class TaskController {
     return await this.taskService.createTask(userId, data)
   }
 
-  @Patch('detail/:id')
+  @Patch(':id/detail')
   async updateDetail(
     @Param('id') taskId: string,
     @Body() taskDetail: UpdateDetailTaskDTO,
@@ -44,7 +44,7 @@ export class TaskController {
     return await this.taskService.updateDetail(taskId, taskDetail)
   }
 
-  @Patch('state/:id')
+  @Patch(':id/state')
   async updateState(
     @Param('id') taskId: string,
     @Body() taskState: UpdateStateTaskDTO,

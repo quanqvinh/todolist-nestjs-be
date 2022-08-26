@@ -2,6 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 import * as mongooseDelete from 'mongoose-delete'
 import { mongooseLeanVirtuals } from 'mongoose-lean-virtuals'
+import * as mongooseTimezone from 'mongoose-timezone'
 
 export type TaskDocument = Task & Document
 
@@ -9,6 +10,13 @@ export enum Priority {
   LOW,
   MEDIUM,
   HIGH,
+}
+
+export enum Evaluate {
+  EXCELLENT = 'EXCELLENT',
+  GOOD = 'GOOD',
+  PRETTY_GOOD = 'PRETTY GOOD',
+  UNSATISFACTORY = 'UNSATISFACTORY',
 }
 
 @Schema({
@@ -47,17 +55,21 @@ const TaskSchema = SchemaFactory.createForClass(Task)
 
 TaskSchema.plugin(mongooseDelete, { deletedAt: true })
 TaskSchema.plugin(mongooseLeanVirtuals)
+TaskSchema.plugin(mongooseTimezone)
 
 TaskSchema.virtual<number>('remainTime').get(function (this: TaskDocument) {
-  return this.deadline.getTime() - this.createdAt.getTime()
+  return this.deadline.getTime() - Date.now()
 })
-TaskSchema.virtual<string>('evaluate').get(function (this: TaskDocument) {
-  if (!this.completedAt) return undefined
+TaskSchema.virtual<Evaluate>('evaluate').get(function (this: TaskDocument) {
+  if (!this.completedAt)
+    return Date.now() < this.deadline.getTime()
+      ? undefined
+      : Evaluate.UNSATISFACTORY
   const different = this.deadline.getTime() - this.completedAt.getTime()
-  if (different > 1000 * 60 * 60 * 24) return 'EXCELLENT'
-  else if (different > 1000 * 60 * 60 * 2) return 'GOOD'
-  else if (different > 0) return 'PRETTY GOOD'
-  else return 'UNSATISFACTORY'
+  if (different > 1000 * 60 * 60 * 24) return Evaluate.EXCELLENT
+  else if (different > 1000 * 60 * 60 * 2) return Evaluate.GOOD
+  else if (different > 0) return Evaluate.PRETTY_GOOD
+  else return Evaluate.UNSATISFACTORY
 })
 
 TaskSchema.pre<Task>('validate', function (next) {
