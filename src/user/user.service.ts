@@ -17,8 +17,12 @@ export class UserService {
     return await this.model.find()
   }
 
-  async find(userId: string): Promise<User> {
-    return await this.model.findOne({ _id: userId })
+  async findById(userId: string): Promise<User> {
+    return await this.model.findOne({ _id: userId }).lean({ virtuals: true })
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return await this.model.findOne({ email }).lean({ virtuals: true })
   }
 
   async create(user: CreateUserDTO): Promise<User> {
