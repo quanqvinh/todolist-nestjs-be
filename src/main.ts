@@ -15,7 +15,7 @@ async function bootstrap() {
   app.use(passport.authenticate('session'))
   app.use(passport.initialize())
   app.use(passport.session())
-  await app.listen(3000)
+  await app.listen(process.env.PORT || 3000)
   console.log(await app.getUrl())
 }
 bootstrap()

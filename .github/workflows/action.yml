@@ -28,7 +28,7 @@ jobs:
 
     - name: Install package
       run: yarn install
-
+  deploy:
     - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
