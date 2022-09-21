@@ -12,7 +12,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: thanos-be
     steps:
       - uses: actions/checkout@v3
 
@@ -22,7 +21,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      - name: Install package
+      - name: Install dependencies
         run: yarn install
 
       - name: Testing
@@ -31,7 +30,12 @@ jobs:
       - name: Build project
         run: yarn build
 
-      - name: Deploy
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: thanos-be
+    steps:
+      - name: Deploy Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
