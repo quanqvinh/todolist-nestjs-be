@@ -21,6 +21,15 @@ export class TaskService {
     return await this.taskModel.find().lean({ virtuals: true }).exec()
   }
 
+  async checkUser(userId: string, taskId: string): Promise<boolean> {
+    const user = await this.userModel
+      .findOne({ _id: userId, tasks: taskId })
+      .lean()
+      .exec()
+    if (user) return true
+    return false
+  }
+
   async getUserTask(userId: string): Promise<Task[]> {
     const userTask = await this.userModel
       .findById(userId)
@@ -28,7 +37,7 @@ export class TaskService {
       .populate('tasks')
       .lean({ virtuals: true })
       .exec()
-    return userTask.tasks
+    return userTask?.tasks || []
   }
 
   async createTask(userId: string, taskInfo: CreateTaskDTO): Promise<boolean> {

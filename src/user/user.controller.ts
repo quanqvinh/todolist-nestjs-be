@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../auth/guard/jwt-auth.guard'
 import { UpdateUserInfoDTO } from './dto/update-user-info.dto'
 import { CreateUserDTO } from './dto/create-user.dto'
 import {
@@ -5,20 +6,23 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common'
 import { User } from './schema/user.schema'
 import { UserService } from './user.service'
+import { AuthenticatedUser } from 'src/auth/config/jwt.strategy'
+import * as DUser from './decorator/user.decorator'
 
 @Controller('user')
 export class UserController {
   constructor(private readonly service: UserService) {}
 
-  @Get(':id')
-  async getUser(@Param('id') userId: string): Promise<User> {
-    return await this.service.find(userId)
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getUser(@DUser.User() user: AuthenticatedUser): Promise<User> {
+    return await this.service.findById(user.id)
   }
 
   @Post()
@@ -27,18 +31,20 @@ export class UserController {
     return Boolean(createdUser)
   }
 
-  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @Patch()
   async updateUserInfo(
-    @Param('id') userId: string,
+    @DUser.User() user: AuthenticatedUser,
     @Body() updateUserInfoDTO: UpdateUserInfoDTO,
   ): Promise<boolean> {
-    const res = await this.service.updateInfo(userId, updateUserInfoDTO)
+    const res = await this.service.updateInfo(user.id, updateUserInfoDTO)
     return res.matchedCount === 1
   }
 
-  @Delete(':id')
-  async deleteUser(@Param('id') userId: string): Promise<boolean> {
-    const res = await this.service.delete(userId)
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  async deleteUser(@DUser.User() user: AuthenticatedUser): Promise<boolean> {
+    const res = await this.service.delete(user.id)
     return res.deletedCount === 1
   }
 }
