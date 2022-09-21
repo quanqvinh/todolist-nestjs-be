@@ -40,7 +40,7 @@ jobs:
           procfile: 'web: yarn start:prod'
         env:
           HD_DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          HD_GOOGLE_CLIENT_ID: 221591004364-jbkqlurho7ejdetifavomg3ma5s9oe18.apps.googleusercontent.com
-          HD_GOOGLE_SECRET: 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
-          HD_JWT_SECRET: this is jwt secret
-          HD_SESSION_SECRET: this is session secret
+          HD_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          HD_GOOGLE_SECRET: ${{ secrets.GOOGLE_SECRET }}
+          HD_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          HD_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
