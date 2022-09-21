@@ -10,8 +10,9 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment: thanos-be
     steps:
       - uses: actions/checkout@v3
 
@@ -21,7 +22,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
-      - name: Install dependencies
+      - name: Install package
         run: yarn install
 
       - name: Testing
@@ -30,12 +31,7 @@ jobs:
       - name: Build project
         run: yarn build
 
-
-  deploy:
-    runs-on: ubuntu-latest
-    environment: thanos-be
-    steps:
-      - name: Deploy Heroku
+      - name: Deploy
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
@@ -48,3 +44,4 @@ jobs:
           HD_GOOGLE_SECRET: ${{ secrets.GOOGLE_SECRET }}
           HD_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           HD_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+
