@@ -24,6 +24,9 @@ jobs:
       - name: Install package
         run: yarn install
 
+      - name: Testing
+        run: yarn jest && yarn yarn test:cov
+
       - name: Build project
         run: yarn build
 
