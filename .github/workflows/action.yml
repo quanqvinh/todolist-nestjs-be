@@ -33,7 +33,7 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: 'todolist-dev-be' #Must be unique in Heroku
           heroku_email: 'nguyenquanqvinh@gmail.com'
-          profile: 'web: yarn start:prod'
+          procfile: 'web: yarn start:prod'
         env:
           DATABASE_URL: mongodb+srv://quanqvinh:diemhiencute@mini-cluster.f9z7w.mongodb.net/test
           GOOGLE_CLIENT_ID: 221591004364-jbkqlurho7ejdetifavomg3ma5s9oe18.apps.googleusercontent.com
