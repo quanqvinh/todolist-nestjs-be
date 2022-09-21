@@ -18,4 +18,9 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3000)
   console.log(await app.getUrl())
 }
+console.log(process.env.DATABASE_URL)
+console.log(process.env.GOOGLE_CLIENT_ID)
+console.log(process.env.GOOGLE_SECRET)
+console.log(process.env.JWT_SECRET)
+console.log(process.env.SESSION_SECRET)
 bootstrap()
