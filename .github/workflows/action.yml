@@ -35,8 +35,8 @@ jobs:
           heroku_email: 'nguyenquanqvinh@gmail.com'
           procfile: 'web: yarn start:prod'
         env:
-          DATABASE_URL: mongodb+srv://quanqvinh:diemhiencute@mini-cluster.f9z7w.mongodb.net/test
-          GOOGLE_CLIENT_ID: 221591004364-jbkqlurho7ejdetifavomg3ma5s9oe18.apps.googleusercontent.com
-          GOOGLE_SECRET: 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
-          JWT_SECRET: this is jwt secret
-          SESSION_SECRET: this is session secret
+          HD_DATABASE_URL: mongodb+srv://quanqvinh:diemhiencute@mini-cluster.f9z7w.mongodb.net/test
+          HD_GOOGLE_CLIENT_ID: 221591004364-jbkqlurho7ejdetifavomg3ma5s9oe18.apps.googleusercontent.com
+          HD_GOOGLE_SECRET: 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
+          HD_JWT_SECRET: this is jwt secret
+          HD_SESSION_SECRET: this is session secret
