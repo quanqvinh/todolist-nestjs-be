@@ -12,6 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: thanos-be
     steps:
       - uses: actions/checkout@v3
 

@@ -11,7 +11,6 @@ export interface AuthenticatedUser {
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly configService: ConfigService) {
-    console.log(configService.get<string>('JWT_SECRET'), process.env.JWT_SECRET)
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
