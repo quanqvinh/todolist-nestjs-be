@@ -25,7 +25,7 @@ jobs:
         run: yarn install
 
       - name: Testing
-        run: yarn jest && yarn yarn test:cov
+        run: yarn jest && yarn test:cov
 
       - name: Build project
         run: yarn build
