@@ -14,7 +14,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       clientID: configService.get<string>('GOOGLE_CLIENT_ID'),
       clientSecret: configService.get<string>('GOOGLE_SECRET'),
       callbackURL:
-        configService.get<string>('JWT_SECRET') + '/auth/google/redirect',
+        configService.get<string>('DOMAIN') + '/auth/google/redirect',
       scope: ['email', 'profile'],
     })
   }
